@@ -1,5 +1,8 @@
 const mongoose = require("mongoose");
 const model = require("../model/userModel");
+const bcrypt = require("bcrypt");
+const { createTokenAndSaveCookie } = require("../jwt/generateToken");
+
 const User = model.User;
 
 
@@ -16,17 +19,48 @@ exports.signup = async (req, res) => {
         return res.status(400).json({ message: "Email already exists" });
     }
 
+    const hashedPassword = bcrypt.hashSync(password, 10);
+
     const newUser = await new User({
         name,
         email,
-        password,
-        confirmPassword
+        password: hashedPassword,
     });
 
-    newUser.save().then(() => res.json("User registered successfully"));
+    await newUser.save();
+    createTokenAndSaveCookie(newUser._id, res);
+    res.status(200).json("User registered successfully");
     }
     catch(error){
         console.log(error);
         res.status(500).json({ message: "Server error" });
     }
-} 
+}
+
+exports.login = async (req, res) => {
+    const { email, password } = req.body;
+    try{
+        const user = await User.findOne({email});
+        const isMatch = bcrypt.compareSync(password, user.password);
+
+        if(!user || !isMatch){
+            return res.status(401).json({message: "Invalid User or Password"});
+        }
+        createTokenAndSaveCookie(user._id, res);
+        res.status(200).json({message: "User logged in successfully"});
+
+    } catch(error){
+        console.log(error);
+        res.status(500).json({message: "Server error"});
+    }
+}
+
+exports.logout = async (req, res) => {
+    try {
+        res.clearCookie("jwt");
+        res.status(200).json({message: "Logout Successfully"});
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({message: "Server error"});
+    }
+}
