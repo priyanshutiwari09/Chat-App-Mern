@@ -3,14 +3,16 @@ import Left from "./home/left/Left";
 import Right from "./home/right/Right";
 import './index.css'
 import Logout from "./home/left/leftSettings/Logout";
+import SignUp from "./components/SignUp";
 
 function App(){
 
   return (
     <>
     <div className="flex h-screen">
-      <Left></Left>
-      <Right></Right>
+      {/* <Left></Left>
+      <Right></Right> */}
+      <SignUp/>
     </div>
     </>
   )
