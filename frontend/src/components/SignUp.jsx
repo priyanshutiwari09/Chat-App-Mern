@@ -1,9 +1,53 @@
+import axios from "axios";
 import React from "react";
+import { useForm } from "react-hook-form";
 
 function SignUp() {
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors }
+  } = useForm();
+  const onSubmit = (data) => {
+    const userInfo = {
+      name: data.name,
+      email: data.email,
+      password: data.password,
+      confirmPassword: data.confirmPassword
+    };
+
+    axios
+      .post("http://localhost:8080/user/signup", userInfo)
+      .then((response) => {
+        console.log(response);
+        if (response.data) {
+          alert("SignUp successfully! You can now log in.");
+        }
+
+        localStorage.setItem("messenger", JSON.stringify(response.data));
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const password = watch("password", "");
+  const confirmPassword = watch("confirmPassword", "");
+
+  const validatePasswordMatch = (value) => {
+    return value === password || "Password and Confirm Password do not match";
+  };
+
   return (
-    <div style={{backgroundImage: 'url(https://mdbcdn.b-cdn.net/img/Photos/new-templates/search-box/img4.webp)'}} className="w-full h- full flex items-center justify-center">
-      <form action="">
+    <div
+      style={{
+        backgroundImage:
+          "url(https://mdbcdn.b-cdn.net/img/Photos/new-templates/search-box/img4.webp)"
+      }}
+      className="w-full h- full flex items-center justify-center"
+    >
+      <form onSubmit={handleSubmit(onSubmit)}>
         <div className="bg-custom-black rounded-xl p-10">
           <h2 className="text-center text-2xl text-zinc-100 font-bold mb-11">
             CREATE AN ACCOUNT
@@ -19,8 +63,18 @@ function SignUp() {
               >
                 <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM12.735 14c.618 0 1.093-.561.872-1.139a6.002 6.002 0 0 0-11.215 0c-.22.578.254 1.139.872 1.139h9.47Z" />
               </svg>
-              <input type="text" className="grow" placeholder="Your Name" />
+              <input
+                type="text"
+                className="grow"
+                placeholder="Your Name"
+                {...register("name", { required: true })}
+              />
             </label>
+            {errors.name && (
+              <span className="text-red-500 text-sm font-semibold">
+                *Name is required*
+              </span>
+            )}
 
             {/* Your Email */}
             <label className="input input-bordered flex items-center gap-2">
@@ -33,8 +87,18 @@ function SignUp() {
                 <path d="M2.5 3A1.5 1.5 0 0 0 1 4.5v.793c.026.009.051.02.076.032L7.674 8.51c.206.1.446.1.652 0l6.598-3.185A.755.755 0 0 1 15 5.293V4.5A1.5 1.5 0 0 0 13.5 3h-11Z" />
                 <path d="M15 6.954 8.978 9.86a2.25 2.25 0 0 1-1.956 0L1 6.954V11.5A1.5 1.5 0 0 0 2.5 13h11a1.5 1.5 0 0 0 1.5-1.5V6.954Z" />
               </svg>
-              <input type="text" className="grow" placeholder="Your Email" />
+              <input
+                type="text"
+                className="grow"
+                placeholder="Your Email"
+                {...register("email", { required: true })}
+              />
             </label>
+            {errors.email && (
+              <span className="text-red-500 text-sm font-semibold">
+                *Email is required*
+              </span>
+            )}
 
             {/* Password */}
             <label className="input input-bordered flex items-center gap-2">
@@ -50,8 +114,18 @@ function SignUp() {
                   clipRule="evenodd"
                 />
               </svg>
-              <input type="password" className="grow" placeholder="Password" />
+              <input
+                type="password"
+                className="grow"
+                placeholder="Password"
+                {...register("password", { required: true })}
+              />
             </label>
+            {errors.password && (
+              <span className="text-red-500 text-sm font-semibold">
+                *Password is required*
+              </span>
+            )}
 
             {/* Confirm Password */}
             <label className="input input-bordered flex items-center gap-2">
@@ -71,21 +145,33 @@ function SignUp() {
                 type="password"
                 placeholder="Repeat your password"
                 className="grow"
+                {...register("confirmPassword", {
+                  required: true,
+                  validate: validatePasswordMatch
+                })}
               />
             </label>
+            {errors.confirmPassword && (
+              <span className="text-red-500 text-sm font-semibold">
+                {errors.confirmPassword.message}
+              </span>
+            )}
 
             {/* terms and condition */}
             <div className="form-control ">
               <label className="cursor-pointer label gap-3 mb-4">
                 <input type="checkbox" className="checkbox size-5.5" />
                 <span className="label-text text-lg font-medium text-zinc-300">
-                  I agree all statements in <span className="font-normal underline text-zinc-400">Terms of service</span>
+                  I agree all statements in{" "}
+                  <span className="font-normal underline text-zinc-400">
+                    Terms of service
+                  </span>
                 </span>
               </label>
             </div>
 
             {/* signup button */}
-            <button className="btn w-full text-zinc-300 text-lg bg-custom-blue hover:bg-transparent">
+            <button className="btn w-full text-zinc-300 text-lg bg-custom-blue hover:bg-custom-blue active:bg-blue-800">
               Sign Up
             </button>
 
@@ -93,7 +179,9 @@ function SignUp() {
             <div className="flex justify-center ">
               <p className="mt-4 mb-1">
                 Have already an account?{" "}
-                <span className="text-zinc-300 font-semibold underline">Login here</span>
+                <span className="text-zinc-300 font-semibold underline">
+                  Login here
+                </span>
               </p>
             </div>
           </div>
