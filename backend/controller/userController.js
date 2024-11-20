@@ -51,7 +51,12 @@ exports.login = async (req, res) => {
             return res.status(401).json({message: "Invalid User or Password"});
         }
         createTokenAndSaveCookie(user._id, res);
-        res.status(200).json({message: "User logged in successfully"});
+
+        res.status(200).json({message: "User logged in successfully", user:{
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+    }});
 
     } catch(error){
         console.log(error);
