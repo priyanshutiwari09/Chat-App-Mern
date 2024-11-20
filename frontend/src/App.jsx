@@ -13,8 +13,8 @@ function App(){
     <div className="flex h-screen">
       {/* <Left></Left>
       <Right></Right> */}
-      <SignUp/>
-      {/* <Login/> */}
+      {/* <SignUp/> */}
+      <Login/>
     </div>
     </>
   )

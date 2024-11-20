@@ -1,6 +1,40 @@
+import axios from "axios";
 import React from "react";
+import { useForm } from "react-hook-form";
 
 function Login() {
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors }
+  } = useForm();
+
+  const onSubmit = (data) => {
+    const userInfo = {
+      email: data.email,
+      password: data.password
+    };
+
+    axios
+      .post("http://localhost:8080/user/login", userInfo)
+      .then((response) => {
+        console.log(response);
+        if (response.data) {
+          console.log(response.data)
+          alert("Login successfully!");
+        }
+
+        localStorage.setItem("messenger", JSON.stringify(response.data));
+      })
+      .catch((error) => {
+        if(error){
+          alert(error.response.data.message);
+        }
+        console.log(error);
+      });
+  };
+
   return (
     <div
       style={{
@@ -9,7 +43,7 @@ function Login() {
       }}
       className="w-full h- full flex items-center justify-center"
     >
-      <form action="">
+      <form onSubmit={handleSubmit(onSubmit)}>
         <div className="bg-custom-black rounded-xl p-10">
           <h2 className="text-center text-2xl text-zinc-100 font-bold mb-11">
             ACCOUNT LOGIN
@@ -26,8 +60,18 @@ function Login() {
                 <path d="M2.5 3A1.5 1.5 0 0 0 1 4.5v.793c.026.009.051.02.076.032L7.674 8.51c.206.1.446.1.652 0l6.598-3.185A.755.755 0 0 1 15 5.293V4.5A1.5 1.5 0 0 0 13.5 3h-11Z" />
                 <path d="M15 6.954 8.978 9.86a2.25 2.25 0 0 1-1.956 0L1 6.954V11.5A1.5 1.5 0 0 0 2.5 13h11a1.5 1.5 0 0 0 1.5-1.5V6.954Z" />
               </svg>
-              <input type="text" className="grow" placeholder="Your Email" />
+              <input
+                type="text"
+                className="grow"
+                placeholder="Your Email"
+                {...register("email", { required: true })}
+              />
             </label>
+            {errors.email && (
+              <span className="text-red-500 text-sm font-semibold">
+                *Email is required*
+              </span>
+            )}
 
             {/* Password */}
             <label className="input input-bordered flex items-center gap-2">
@@ -43,11 +87,21 @@ function Login() {
                   clipRule="evenodd"
                 />
               </svg>
-              <input type="password" className="grow" placeholder="Password" />
+              <input
+                type="password"
+                className="grow"
+                placeholder="Password"
+                {...register("password", { required: true })}
+              />
             </label>
+            {errors.password && (
+              <span className="text-red-500 text-sm font-semibold">
+                *Password is required*
+              </span>
+            )}
 
             {/* login button */}
-            <button className="btn w-full text-zinc-300 text-lg bg-custom-blue hover:bg-transparent">
+            <button className="btn w-full text-zinc-300 text-lg bg-custom-blue hover:bg-custom-blue active:bg-blue-800">
               login
             </button>
 
