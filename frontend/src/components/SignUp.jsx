@@ -1,15 +1,22 @@
 import axios from "axios";
-import React from "react";
+import React, { useState } from "react";
+import { useContext } from "react";
 import { useForm } from "react-hook-form";
+import { AuthContext } from "../context/AuthProvider";
+import { Link } from "react-router-dom";
 
 function SignUp() {
+  const { authUser, setAuthUser } = useContext(AuthContext);
+
+
   const {
     register,
     handleSubmit,
     watch,
     formState: { errors }
   } = useForm();
-  const onSubmit = (data) => {
+
+  const onSubmit = async(data) => {
     const userInfo = {
       name: data.name,
       email: data.email,
@@ -17,7 +24,7 @@ function SignUp() {
       confirmPassword: data.confirmPassword
     };
 
-    axios
+    await axios
       .post("http://localhost:8080/user/signup", userInfo)
       .then((response) => {
         console.log(response);
@@ -26,6 +33,7 @@ function SignUp() {
         }
 
         localStorage.setItem("messenger", JSON.stringify(response.data));
+        setAuthUser(response.data)
       })
       .catch((error) => {
         console.log(error);
@@ -45,7 +53,7 @@ function SignUp() {
         backgroundImage:
           "url(https://mdbcdn.b-cdn.net/img/Photos/new-templates/search-box/img4.webp)"
       }}
-      className="w-full h- full flex items-center justify-center"
+      className="w-full h- full flex items-center justify-center h-screen"
     >
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="bg-custom-black rounded-xl p-10">
@@ -180,7 +188,7 @@ function SignUp() {
               <p className="mt-4 mb-1">
                 Have already an account?{" "}
                 <span className="text-zinc-300 font-semibold underline">
-                  Login here
+                <Link to="/login">Login here</Link>
                 </span>
               </p>
             </div>

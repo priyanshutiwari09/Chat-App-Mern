@@ -1,23 +1,39 @@
-import React from "react";
+import React, { useContext } from "react";
 import Left from "./home/left/Left";
 import Right from "./home/right/Right";
-import './index.css'
+import "./index.css";
 import Logout from "./home/left/leftSettings/Logout";
 import SignUp from "./components/SignUp";
 import Login from "./components/Login";
+import { AuthContext } from "./context/AuthProvider";
+import { Routes, Route, Navigate } from "react-router-dom";
 
-function App(){
+function App() {
+  const { authUser, setAuthUser } = useContext(AuthContext);
 
+
+  console.log(authUser);
   return (
     <>
-    <div className="flex h-screen">
-      {/* <Left></Left>
-      <Right></Right> */}
-      {/* <SignUp/> */}
-      <Login/>
-    </div>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            authUser ? (
+              <div className="flex h-screen">
+                <Left></Left>
+                <Right></Right>
+              </div>
+            ) : (
+              <Navigate to="/login" />
+            )
+          }
+        />
+        <Route path="/login" element={authUser ? <Navigate to="/" /> : <Login />} />
+        <Route path="/signup" element={authUser ? <Navigate to="/" /> : <SignUp />} />
+      </Routes>
     </>
-  )
+  );
 }
 
 export default App;
