@@ -23,7 +23,7 @@ function Login() {
     await axios
       .post("http://localhost:8080/user/login", userInfo)
       .then((response) => {
-        console.log(response.headers);
+        //console.log(response.headers);
         if (response.data) {
           console.log(response.data);
           alert("Login successfully!");
