@@ -7,6 +7,7 @@ export const AuthProvider = ({ children }) => {
   const initialState = Cookies.get("jwt") || localStorage.getItem("messenger");
 
   // Parse the user data and storing in state
+  //const one = 1 gC
   const [authUser, setAuthUser] = useState(
     initialState ? JSON.parse(initialState) : undefined
   );
