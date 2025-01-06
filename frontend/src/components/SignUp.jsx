@@ -25,7 +25,7 @@ function SignUp() {
     };
 
     await axios
-      .post("http://localhost:8080/user/signup", userInfo)
+      .post("/api/user/signup", userInfo)
       .then((response) => {
         console.log(response);
         if (response.data) {
