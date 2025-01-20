@@ -88,5 +88,4 @@ exports.getUserProfile = async (req, res) => {
   } catch (error) {
     console.log("Error in allUsers Controller" + error);
     res.status(500).json({ message: "Server Error" });
-  }
-};
+  }};
