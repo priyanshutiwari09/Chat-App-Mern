@@ -2,7 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
-body{
+body {
   background-color: white;
   box-sizing: border-box;
+  overflow: hidden;
+  height: 100vh; /* Prevents scrolling within the full viewport */
+  width: 100vw;
 }

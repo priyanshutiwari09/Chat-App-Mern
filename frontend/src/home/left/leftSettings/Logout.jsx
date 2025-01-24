@@ -4,6 +4,7 @@ import { RiLogoutCircleLine } from "react-icons/ri";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../../context/AuthProvider";
+import useConversation from "../../../stateManage/conversationState";
 
 function Logout() {
   const navigate = useNavigate();
@@ -16,7 +17,9 @@ function Logout() {
       if (response.status === 200) {
         localStorage.removeItem("messenger");
         Cookies.remove("jwt");
-        setAuthUser(undefined)
+        setAuthUser(undefined);
+        // useConversation.setState({ selectedConversation: null, messages: [] });
+        // useConversation.persist.clearStorage();
         // console.log("Navigating to /login");
         // navigate("/login");
         // console.log("Navigation triggered");

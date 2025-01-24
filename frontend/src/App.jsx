@@ -12,7 +12,7 @@ function App() {
   const { authUser, setAuthUser } = useContext(AuthContext);
 
 
-  console.log(authUser);
+  // console.log(authUser);
   return (
     <>
       <Routes>
