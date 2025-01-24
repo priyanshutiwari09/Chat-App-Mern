@@ -80,7 +80,7 @@ exports.logout = async (req, res) => {
 exports.getUserProfile = async (req, res) => {
 
   const loggedInUser = req.user._id;
-  console.log(loggedInUser)
+  // console.log(loggedInUser)
 
   try {
     const filteredUsers = await User.find({ _id: { $ne: loggedInUser }}).select("-password");

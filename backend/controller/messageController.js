@@ -3,7 +3,7 @@ const { Conversation } = require("../model/conversationModel");
 const mongoose = require("mongoose");
 
 exports.sendMessage = async (req, res) => {
-//   console.log("sendMessage", req.params.id, req.body.message);
+  //   console.log("sendMessage", req.params.id, req.body.message);
   try {
     const senderId = req.user._id;
     //console.log("sender", senderId);
@@ -14,7 +14,7 @@ exports.sendMessage = async (req, res) => {
     // console.log("sender", senderId);
 
     let conversation = await Conversation.findOne({
-      participants: { $all: [senderId, receiverId] }  
+      participants: { $all: [senderId, receiverId] }
     });
 
     // console.log("conversation", conversation);
@@ -36,31 +36,29 @@ exports.sendMessage = async (req, res) => {
     }
 
     await Promise.all([newMessage.save(), conversation.save()]);
-    res.status(200).json({ message: "Message sent successfully", newMessage });
-
+    // res.status(200).json({ message: "Message sent successfully", newMessage });
+    res.status(200)
   } catch (error) {
     // console.log(error);
     res.status(500).json({ message: "Server error" });
   }
 };
 
-
 exports.getMessages = async (req, res) => {
-    try{
-        const senderId = req.user._id;
-        const receiverId = req.params.id
+  try {
+    const senderId = req.user._id;
+    const receiverId = req.params.id;
 
-        const conversation = await Conversation.findOne({
-            participants: { $all: [senderId, receiverId] }
-        }).populate("messages");
+    const conversation = await Conversation.findOne({
+      participants: { $all: [senderId, receiverId] }
+    }).populate("messages");
 
-        if(!conversation){
-            return res.status(400).json({message: "No messages found"})
-        }
-
-        res.status(200).json(conversation.messages)
+    if (!conversation) {
+      return res.status(400).json({ message: "No messages found" });
     }
-    catch(error){
-        res.status(500).json({message: "Server error"})
-    }
+
+    res.status(200).json(conversation.messages);
+  } catch (error) {
+    res.status(500).json({ message: "Server error" });
+  }
 };
