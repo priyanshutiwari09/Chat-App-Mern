@@ -26,7 +26,23 @@ function Right() {
           <SendMessage />
         </div>
       ) : (
-        <div>On Start</div>
+        <div
+          className="w-[70%] flex flex-col justify-center items-center h-full text-center border-l-2 text-gray-700"
+          style={{
+            background: "linear-gradient(to bottom, #f0f4f8, #e0e8f9)" // Light gradient background
+          }}
+        >
+          <img
+            src="https://cdn-icons-png.flaticon.com/512/4712/4712030.png"
+            alt="Chat Illustration"
+            className="w-52 h-52 mb-6 opacity-50"
+          />
+          <h2 className="text-2xl font-semibold">Welcome to ChatApp!</h2>
+          <p className="mt-2 text-lg text-gray-500 max-w-md">
+            Select a user to start chatting. Stay connected and enjoy seamless
+            conversations!
+          </p>
+        </div>
       )}
     </>
   );

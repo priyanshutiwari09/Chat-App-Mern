@@ -9,7 +9,7 @@ function User({ user }) {
 
   return (
     <div
-      className={`hover:bg-slate-300 text-gray-600 duration-300 cursor-pointer ${
+      className={`hover:bg-slate-300 rounded-md mb-1 text-gray-600 duration-300 cursor-pointer ${
         isSelected ? "bg-slate-400 hover:bg-slate-400" : ""
       } `}
       onClick={() => setSelectedConversation(user)}

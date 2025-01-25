@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import UserChat from "./UserChat";
 import getMessage from "../../context/getMessage.js";
 import useConversation from "../../stateManage/conversationState.js";
@@ -8,23 +8,25 @@ function ChatSection() {
   const { messages, loading } = getMessage();
   const { selectedConversation } = useConversation();
   console.log("chatSection", selectedConversation);
-  // const chatContainerRef = useRef(null);
-  // console.log(messages);
+  const chatContainerRef = useRef(null);
+  console.log(messages);
 
-  // const scrollToBottom = () => {
-  //   const chatContainer = chatContainerRef.current;
-  //   chatContainer.scrollTop = chatContainer.scrollHeight;
-  // };
+  const scrollToBottom = () => {
+    const chatContainer = chatContainerRef.current;
+    chatContainer.scrollTop = chatContainer.scrollHeight;
+  };
 
-  // useEffect(() => {
-  //   scrollToBottom();
-  // }, [messages]);
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
   return (
-    <div>
+    <div className="">
       <div
-        // ref={chatContainerRef}
-        className="ps-2 pe-2"
-        style={{ minHeight: "calc(100vh - 17.8vh)" }}
+        ref={chatContainerRef}
+        className="ps-2 pe-2 pb-2  overflow-auto scroll-smooth"
+        style={{
+          minHeight: "calc(100vh - 17.8vh)"
+        }}
       >
         {/* loading ? (
         <Loading />
