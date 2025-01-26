@@ -13,7 +13,7 @@ function UserChat({ sender, message }) {
 
   const isSender = message.senderId === authUser.user._id;
   return (
-    <div className="pt-3">
+    <div className="pt-3 pb-3">
       {isSender ? (
         <div className="chat chat-end">
           <div className="chat-bubble chat-bubble-error">
@@ -27,6 +27,7 @@ function UserChat({ sender, message }) {
           </div>
         </div>
       )}
+       <p>{isSender ? 'Sender' : 'Receiver'}</p>
     </div>
   );
 }

@@ -1,59 +1,84 @@
-import React, { useEffect, useRef } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import UserChat from "./UserChat";
 import getMessage from "../../context/getMessage.js";
 import useConversation from "../../stateManage/conversationState.js";
+import useSocketMessage from "../../context/useSocketMessage.js";
 // import Loading from "../../components/Loading";
 
 function ChatSection() {
   const { messages, loading } = getMessage();
   const { selectedConversation } = useConversation();
-  console.log("chatSection", selectedConversation);
-  const chatContainerRef = useRef(null);
-  console.log(messages);
+  // console.log("chatSection", selectedConversation);
 
+  const chatContainerRef = useRef(null);
+
+  useSocketMessage();
+
+  // Function to scroll to the latest message
   const scrollToBottom = () => {
-    const chatContainer = chatContainerRef.current;
-    chatContainer.scrollTop = chatContainer.scrollHeight;
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTo({
+        top: chatContainerRef.current.scrollHeight,
+        behavior: "smooth"
+      });
+    }
   };
 
   useEffect(() => {
-    scrollToBottom();
+    if (messages.length > 0) {
+      scrollToBottom();
+    }
   }, [messages]);
+
   return (
-    <div className="">
-      <div
-        ref={chatContainerRef}
-        className="ps-2 pe-2 pb-2  overflow-auto scroll-smooth"
-        style={{
-          minHeight: "calc(100vh - 17.8vh)"
-        }}
-      >
-        {/* loading ? (
+    <div
+      ref={chatContainerRef}
+      className="overflow-y-auto scroll-smooth"
+      style={{
+        height: "calc(100vh - 17.8vh - 0.1vh)",
+        overflowAnchor: "none"
+      }}
+    >
+      {/* loading ? (
         <Loading />
       ) : ( */}
 
-        {messages.length == 0 && selectedConversation && (
-          <div
-            className="flex  justify-center items-center bg-slate-500"
-            style={{ minHeight: "calc(100vh - 17.8vh)" }}
-          >
-            "Start a conversation with {selectedConversation.name}. Say hi!"
-          </div>
-        )}
-        {messages.length > 0 &&
-          messages.map((message) => {
-            // console.log(message)
-            // console.log(message.senderId);
-            return (
-              <UserChat
-                key={message._id}
-                sender={message.senderId}
-                message={message}
-              />
-            );
-          })}
-        {/* <UserChat/> */}
-      </div>
+      {messages.length == 0 && selectedConversation && (
+        <div
+          className="flex flex-col justify-center items-center text-center border-l-2 text-gray-700"
+          style={{
+            height: "calc(99vh - 17.8vh)"
+          }}
+          // style={{
+          //   background: "linear-gradient(to bottom, #f0f4f8, #e0e8f9)" // Light gradient background
+          // }}
+        >
+          <img
+            src="/images/undraw_begin-chat_4wy6.svg"
+            alt="Chat Illustration"
+            className="w-52 h-52 mb-6 opacity-75"
+          />
+          <h2 className="text-2xl font-semibold">Say hi!</h2>
+          <p className="mt-2 text-lg text-gray-500 max-w-md">
+            Start a conversation with {selectedConversation.name}
+          </p>
+        </div>
+      )}
+      {messages.length > 0 &&
+        messages.map((message, index) => {
+          // console.log(message)
+          // console.log(message.senderId);
+          return (
+            <UserChat
+              key={message._id || index}
+              sender={message.senderId}
+              message={message}
+            />
+          );
+        })}
+      {/* <div ref={bottomRef} style={{ height: "1px" }} /> */}
+      {/* <UserChat/> */}
+      <div style={{ height: "1px" }} />
     </div>
   );
 }

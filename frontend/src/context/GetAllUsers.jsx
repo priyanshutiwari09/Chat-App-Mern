@@ -17,10 +17,10 @@ const GetAllUsers = () => {
         const token = Cookies.get("jwt");
 
         // Check if token exists before making a request
-        if (!token) {
-          console.log("No token found. User might need to log in again.");
-          setLoading(false);
-        }
+        // if (!token) {
+        //   console.log("No token found. User might need to log in again.");
+        //   setLoading(false);
+        // }
 
         const response = await axios.get("/api/user/getUserProfile", {
           withCredentials: true,

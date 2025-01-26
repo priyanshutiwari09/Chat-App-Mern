@@ -2,7 +2,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { io } from "socket.io-client";
 import { AuthContext } from "./AuthProvider";
 
-const SocketContext = createContext();
+export const SocketContext = createContext();
 
 export const SocketProvider = ({ children }) => {
   const [socket, setSocket] = useState(null);
@@ -21,7 +21,9 @@ export const SocketProvider = ({ children }) => {
         console.log("Emit in Frontend");
       });
 
-      return () => socket.close();
+      return () => {
+        newSocket.close()
+      }
     } else {
       if (socket) {
         socket.close();
