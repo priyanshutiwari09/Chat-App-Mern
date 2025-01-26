@@ -1,25 +1,26 @@
 const { Message } = require("../model/messageModel");
 const { Conversation } = require("../model/conversationModel");
 const mongoose = require("mongoose");
+const { getReceiverId } = require("../SocketIO/server");
+const { Socket } = require("socket.io");
+const { app, server, io } = require("../SocketIO/server");
 
 exports.sendMessage = async (req, res) => {
-  //   console.log("sendMessage", req.params.id, req.body.message);
   try {
     const senderId = req.user._id;
-    //console.log("sender", senderId);
     const receiverId = req.params.id;
     const message = req.body.message;
 
-    // console.log("receiver", receiverId);
-    // console.log("sender", senderId);
+    // console.log("Sending message from:", senderId);
+    // console.log("To receiver:", receiverId);
+    // console.log("Message content:", message);
 
     let conversation = await Conversation.findOne({
       participants: { $all: [senderId, receiverId] }
     });
 
-    // console.log("conversation", conversation);
-
     if (!conversation) {
+      // console.log("No conversation found. Creating new conversation...");
       conversation = await Conversation.create({
         participants: [senderId, receiverId]
       });
@@ -31,16 +32,27 @@ exports.sendMessage = async (req, res) => {
       message
     });
 
+    // console.log("New message object:", newMessage);
+
     if (newMessage) {
       conversation.messages.push(newMessage);
     }
 
     await Promise.all([newMessage.save(), conversation.save()]);
-    // res.status(200).json({ message: "Message sent successfully", newMessage });
-    res.status(200)
+
+    // console.log("Message saved, notifying receiver...");
+
+    const receiverSocketId = getReceiverId(receiverId);
+    if (receiverSocketId) {
+      io.to(receiverSocketId).emit("newMessage", newMessage);
+      console.log("Message sent to receiver via socket.");
+    }
+    console.log("newMessage", newMessage);
+
+    res.status(201).json(newMessage);
   } catch (error) {
-    // console.log(error);
-    res.status(500).json({ message: "Server error" });
+    console.error("Error in sendMessage:", error); // Add this for better error details
+    res.status(500).json({ message: "Server error", error: error.message });
   }
 };
 
