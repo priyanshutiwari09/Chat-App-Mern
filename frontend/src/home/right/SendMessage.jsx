@@ -30,7 +30,7 @@ function SendMessage() {
           />
         </div>
 
-        <button className="text-2xl ps-4 pe-10" type="submit">
+        <button className="text-2xl tooltip ps-4 pe-10" data-tip="Send" type="submit">
           <VscSend className="text-gray-500" />
         </button>
       </div>

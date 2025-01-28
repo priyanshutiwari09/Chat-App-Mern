@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import axios from "axios";
-import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
+import { Routes, Route, Navigate, useNavigate, data } from "react-router-dom";
 import { AuthContext } from "./AuthProvider";
 
 const GetAllUsers = () => {
@@ -30,6 +30,7 @@ const GetAllUsers = () => {
           }
         });
         setAllUsers(response.data);
+        console.log(response.data)
         setLoading(false);
       } catch (error) {
         setAuthUser(null);

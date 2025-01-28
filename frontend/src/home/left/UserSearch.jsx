@@ -9,7 +9,7 @@ function UserSearch(){
         style={{boxShadow: 'rgba(0, 0, 0, 0.5) 0px 5px 10px 0px inset',
         }}
         //box-shadow: rgba(0, 0, 0, 0.5) 0px 5px 10px 0px inset;
-        className="input input-bordered w-full bg-transparent rounded-3xl" />
+        className="input input-bordered bg-transparent rounded-3xl flex-grow min-w-0" />
         <button>
             <IoSearchOutline  className="text-4xl"/>
         </button>

@@ -8,9 +8,9 @@ function Right() {
   const { selectedConversation, messages, setSelectedConversation } =
     useConversation();
   // const isSelected = selectedConversation?._id === user._id;
-  if (selectedConversation) {
-    console.log(selectedConversation);
-  }
+  // if (selectedConversation) {
+  //   console.log(selectedConversation);
+  // }
 
   return (
     <>

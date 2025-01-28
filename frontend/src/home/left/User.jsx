@@ -8,7 +8,8 @@ function User({ user }) {
 
   const { socket, onlineUsers } = useContext(SocketContext);
   // console.log(selectedConversation)
-  const isOnline = onlineUsers.includes(user._id)
+  const isOnline = onlineUsers.includes(user._id);
+  // console.log("user", user);
 
   return (
     <div
@@ -18,13 +19,17 @@ function User({ user }) {
       onClick={() => setSelectedConversation(user)}
     >
       <div className="flex items-center space-x-4 p-3 cursor-pointer">
-        <div className={`avatar ${isOnline ? "online": ""}`}>
+        <div className={`avatar ${isOnline ? "online" : ""}`}>
           <div className="w-14 rounded-full">
-            <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
+            {user.profileImage ? (
+              <img src={`${user.profileImage}`} />
+            ) : (
+              <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
+            )}
           </div>
         </div>
 
-        <div>
+        <div className="max-w-[80%] break-words pe-4">
           <h1 className="font-bold">{user.name}</h1>
           <span>{user.email}</span>
         </div>

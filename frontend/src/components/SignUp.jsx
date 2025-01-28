@@ -7,7 +7,11 @@ import { Link } from "react-router-dom";
 
 function SignUp() {
   const { authUser, setAuthUser } = useContext(AuthContext);
+  const [profileImage, setProfileImage] = useState(null);
 
+  const handleImageChange = (e) => {
+    setProfileImage(e.target.files[0]);
+  };
 
   const {
     register,
@@ -16,16 +20,26 @@ function SignUp() {
     formState: { errors }
   } = useForm();
 
-  const onSubmit = async(data) => {
-    const userInfo = {
-      name: data.name,
-      email: data.email,
-      password: data.password,
-      confirmPassword: data.confirmPassword
-    };
+  const onSubmit = async (data) => {
+    const userInfo = new FormData();
+    // Append text fields
+    userInfo.append("name", data.name);
+    userInfo.append("email", data.email);
+    userInfo.append("password", data.password);
+    userInfo.append("confirmPassword", data.confirmPassword);
 
+    // Append the profile image (if any)
+    if (profileImage) {
+      userInfo.append("profileImage", profileImage);
+    }
+
+    console.log(userInfo);
     await axios
-      .post("/api/user/signup", userInfo)
+      .post("/api/user/signup", userInfo, {
+        headers: {
+          "Content-Type": "multipart/form-data"
+        }
+      })
       .then((response) => {
         console.log(response);
         if (response.data) {
@@ -33,7 +47,7 @@ function SignUp() {
         }
 
         localStorage.setItem("messenger", JSON.stringify(response.data));
-        setAuthUser(response.data)
+        setAuthUser(response.data);
       })
       .catch((error) => {
         console.log(error);
@@ -165,6 +179,13 @@ function SignUp() {
               </span>
             )}
 
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleImageChange}
+              required
+            />
+
             {/* terms and condition */}
             <div className="form-control ">
               <label className="cursor-pointer label gap-3 mb-4">
@@ -188,7 +209,7 @@ function SignUp() {
               <p className="mt-4 mb-1">
                 Have already an account?{" "}
                 <span className="text-zinc-300 font-semibold underline">
-                <Link to="/login">Login here</Link>
+                  <Link to="/login">Login here</Link>
                 </span>
               </p>
             </div>
