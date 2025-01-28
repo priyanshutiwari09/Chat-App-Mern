@@ -16,7 +16,7 @@ function SendMessage() {
   return (
     <form onSubmit={handleSubmit}>
       <div className="bg-slate-200 flex justify-around items-center h-[9vh]">
-        <button className="cursor-pointer ps-10">
+        <button className="cursor-pointer ps-10" type="file" accept="image/*">
           <LuFiles className="text-2xl text-gray-500" />
         </button>
 
@@ -30,7 +30,11 @@ function SendMessage() {
           />
         </div>
 
-        <button className="text-2xl tooltip ps-4 pe-10" data-tip="Send" type="submit">
+        <button
+          className="text-2xl tooltip ps-4 pe-10"
+          data-tip="Send"
+          type="submit"
+        >
           <VscSend className="text-gray-500" />
         </button>
       </div>

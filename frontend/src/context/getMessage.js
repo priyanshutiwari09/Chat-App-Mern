@@ -19,7 +19,7 @@ const getMessage = () => {
           if (response.data && response.data.length > 0) {
             setMessages(response.data);
           } else {
-            console.log("No messages found for this conversation.");
+            // console.log("No messages found for this conversation.");
             setMessages([]);
             setLoading(false); // Handle empty state or display a message
           }

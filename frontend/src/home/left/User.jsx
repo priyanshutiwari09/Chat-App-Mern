@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import useConversation from "../../stateManage/conversationState.js";
 import { SocketContext } from "../../context/SocketContext.jsx";
+import { useUserProfile } from "../../context/UserProfile.jsx";
 
 function User({ user }) {
   const { selectedConversation, setSelectedConversation } = useConversation();
@@ -10,13 +11,21 @@ function User({ user }) {
   // console.log(selectedConversation)
   const isOnline = onlineUsers.includes(user._id);
   // console.log("user", user);
+  const { setUserProfile } = useUserProfile();
 
   return (
     <div
       className={`hover:bg-slate-300 rounded-md mb-1 text-gray-600 duration-300 cursor-pointer ${
         isSelected ? "bg-slate-400 hover:bg-slate-400" : ""
       } `}
-      onClick={() => setSelectedConversation(user)}
+      onClick={() => {
+        setSelectedConversation(user);
+        user.profileImage
+          ? setUserProfile(user.profileImage)
+          : setUserProfile(
+              "https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+            );
+      }}
     >
       <div className="flex items-center space-x-4 p-3 cursor-pointer">
         <div className={`avatar ${isOnline ? "online" : ""}`}>

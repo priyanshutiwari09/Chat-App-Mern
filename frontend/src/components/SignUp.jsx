@@ -179,12 +179,7 @@ function SignUp() {
               </span>
             )}
 
-            <input
-              type="file"
-              accept="image/*"
-              onChange={handleImageChange}
-              required
-            />
+            <input type="file" accept="image/*" onChange={handleImageChange} />
 
             {/* terms and condition */}
             <div className="form-control ">

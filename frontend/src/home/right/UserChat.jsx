@@ -11,8 +11,8 @@ function UserChat({ sender, message }) {
   // console.log("loggedUser", authUser.user._id)
   // console.log(sender === authUser.user._id)
 
-  console.log("userChat", message);
-  console.log("time", message.createdAt);
+  // console.log("userChat", message);
+  // console.log("time", message.createdAt);
   const isSender = message.senderId === authUser.user._id;
   return (
     <div className="pt-3 pb-3">
@@ -23,7 +23,7 @@ function UserChat({ sender, message }) {
             <p className="text-xs self-end place-items-end text-gray-700">
               {new Date(message.createdAt).toLocaleTimeString([], {
                 hour: "2-digit",
-                minute: "2-digit",
+                minute: "2-digit"
                 // hour12: true
               })}
             </p>
@@ -36,7 +36,7 @@ function UserChat({ sender, message }) {
             <p className="text-xs self-end place-items-end text-gray-700">
               {new Date(message.createdAt).toLocaleTimeString([], {
                 hour: "2-digit",
-                minute: "2-digit",
+                minute: "2-digit"
                 // hour12: true
               })}
             </p>

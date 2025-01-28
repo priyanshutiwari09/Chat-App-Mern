@@ -30,12 +30,12 @@ const GetAllUsers = () => {
           }
         });
         setAllUsers(response.data);
-        console.log(response.data)
+        // console.log(response.data)
         setLoading(false);
       } catch (error) {
         setAuthUser(null);
         navigate("/login");
-        console.log("Error in GetAllUser" + error);
+        // console.log("Error in GetAllUser" + error);
       }
     };
     getUsers();
