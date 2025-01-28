@@ -8,7 +8,9 @@ const User = model.User;
 exports.signup = async (req, res) => {
   try {
     const { name, email, password, confirmPassword } = req.body;
-
+    console.log(req.file);
+    const profileImage = req.file ? `/uploads/${req.file.filename}` : null;
+    console.log(profileImage)
     if (password !== confirmPassword) {
       return res.status(400).json({ message: "Password do not match" });
     }
@@ -23,7 +25,8 @@ exports.signup = async (req, res) => {
     const newUser = await new User({
       name,
       email,
-      password: hashedPassword
+      password: hashedPassword,
+      profileImage
     });
 
     await newUser.save();
@@ -33,7 +36,8 @@ exports.signup = async (req, res) => {
       user: {
         _id: newUser._id,
         name: newUser.name,
-        email: newUser.email
+        email: newUser.email,
+        profileImage: newUser.profileImage
       }
     });
   } catch (error) {
@@ -78,14 +82,17 @@ exports.logout = async (req, res) => {
 };
 
 exports.getUserProfile = async (req, res) => {
-
   const loggedInUser = req.user._id;
   // console.log(loggedInUser)
 
   try {
-    const filteredUsers = await User.find({ _id: { $ne: loggedInUser }}).select("-password");
+    const filteredUsers = await User.find({
+      _id: { $ne: loggedInUser }
+    }).select("-password");
+    console.log(filteredUsers)
     res.status(201).json({ filteredUsers });
   } catch (error) {
     console.log("Error in allUsers Controller" + error);
     res.status(500).json({ message: "Server Error" });
-  }};
+  }
+};
