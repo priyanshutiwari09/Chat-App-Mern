@@ -7,10 +7,11 @@ const User = model.User;
 
 exports.signup = async (req, res) => {
   try {
-    const { name, email, password, confirmPassword } = req.body;
+    const { name, email, password, confirmPassword, preferredLanguage } =
+      req.body;
     console.log(req.file);
     const profileImage = req.file ? `/uploads/${req.file.filename}` : null;
-    console.log(profileImage)
+    console.log(profileImage);
     if (password !== confirmPassword) {
       return res.status(400).json({ message: "Password do not match" });
     }
@@ -26,7 +27,8 @@ exports.signup = async (req, res) => {
       name,
       email,
       password: hashedPassword,
-      profileImage
+      profileImage,
+      preferredLanguage
     });
 
     await newUser.save();
@@ -89,10 +91,32 @@ exports.getUserProfile = async (req, res) => {
     const filteredUsers = await User.find({
       _id: { $ne: loggedInUser }
     }).select("-password");
-    console.log(filteredUsers)
+    console.log(filteredUsers);
     res.status(201).json({ filteredUsers });
   } catch (error) {
     console.log("Error in allUsers Controller" + error);
     res.status(500).json({ message: "Server Error" });
+  }
+};
+
+exports.updateLanguage = async (req, res) => {
+  try {
+    const { language } = req.body;
+    const userId = req.params.userId;
+
+    const user = await User.findByIdAndUpdate(
+      userId,
+      { preferredLanguage: language },
+      { new: true }
+    );
+
+    if (!user) {
+      return res.status(404).json({ message: "User not Found" });
+    }
+    console.log("done");
+    res.json({ message: "Language Updated", user });
+  } catch (err) {
+    console.log(err.message);
+    res.status(500).json({ error: err.message });
   }
 };

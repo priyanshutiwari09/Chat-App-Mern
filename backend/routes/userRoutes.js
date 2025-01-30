@@ -12,5 +12,6 @@ router
   .post("/logout", userController.logout);
 
 router.get("/getUserProfile", secureRoute, userController.getUserProfile);
+router.put("/updateLanguage/:userId", userController.updateLanguage)
 
 module.exports = router;
