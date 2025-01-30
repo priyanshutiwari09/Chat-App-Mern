@@ -12,15 +12,15 @@ const useSocketMessage = () => {
   useEffect(() => {
     // if (!socket) return;
     socket.on("newMessage", (newMessage) => {
-      console.log("Received real-time message:", newMessage);
-      console.log("Sender ID:", newMessage.senderId);
-      console.log("Receiver ID:", newMessage.receiverId);
-      console.log("Logged-in User ID:", authUser.user._id);
+      // console.log("Received real-time message:", newMessage);
+      // console.log("Sender ID:", newMessage.senderId);
+      // console.log("Receiver ID:", newMessage.receiverId);
+      // console.log("Logged-in User ID:", authUser.user._id);
       // Check if it's the sender or receiver
       const isSender = newMessage.senderId === authUser.user._id;
-      console.log(
-        isSender ? "This is your message" : "This is the receiver's message"
-      );
+      // console.log(
+      //   isSender ? "This is your message" : "This is the receiver's message"
+      // );
 
       const notification = new Audio(sound);
       notification.play();

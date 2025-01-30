@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 function SignUp() {
   const { authUser, setAuthUser } = useContext(AuthContext);
   const [profileImage, setProfileImage] = useState(null);
+  const [preferredLanguage, setPreferredLanguage] = useState("en");
 
   const handleImageChange = (e) => {
     setProfileImage(e.target.files[0]);
@@ -27,6 +28,7 @@ function SignUp() {
     userInfo.append("email", data.email);
     userInfo.append("password", data.password);
     userInfo.append("confirmPassword", data.confirmPassword);
+    userInfo.append("preferredLanguage", preferredLanguage);
 
     // Append the profile image (if any)
     if (profileImage) {
@@ -180,6 +182,19 @@ function SignUp() {
             )}
 
             <input type="file" accept="image/*" onChange={handleImageChange} />
+
+            <label className="block mt-2 text-zinc-300">
+              Preferred Language:
+            </label>
+            <select
+              className="border p-2 rounded w-full mt-2"
+              value={preferredLanguage}
+              onChange={(e) => setPreferredLanguage(e.target.value)}
+            >
+              <option value="en">English</option>
+              <option value="hi">Hindi</option>
+              <option value="mr">Marathi</option>
+            </select>
 
             {/* terms and condition */}
             <div className="form-control ">
