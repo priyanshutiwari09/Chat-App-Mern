@@ -35,7 +35,7 @@ function SignUp() {
       userInfo.append("profileImage", profileImage);
     }
 
-    console.log(userInfo);
+    // console.log(userInfo);
     await axios
       .post("/api/user/signup", userInfo, {
         headers: {
@@ -43,7 +43,7 @@ function SignUp() {
         }
       })
       .then((response) => {
-        console.log(response);
+        // console.log(response);
         if (response.data) {
           alert("SignUp successfully! You can now log in.");
         }
