@@ -8,10 +8,18 @@ import { Link } from "react-router-dom";
 function SignUp() {
   const { authUser, setAuthUser } = useContext(AuthContext);
   const [profileImage, setProfileImage] = useState(null);
+  const [previewImage, setPreviewImage] = useState(null);
   const [preferredLanguage, setPreferredLanguage] = useState("en");
 
   const handleImageChange = (e) => {
+    const file = e.target.files[0];
     setProfileImage(e.target.files[0]);
+
+    if (file) {
+      setPreviewImage(URL.createObjectURL(file));
+    } else {
+      setPreviewImage(null);
+    }
   };
 
   const {
@@ -73,9 +81,21 @@ function SignUp() {
     >
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="bg-custom-black rounded-xl p-10">
-          <h2 className="text-center text-2xl text-zinc-100 font-bold mb-11">
+          <h2 className="text-center text-2xl text-zinc-100 font-bold mb-5">
             CREATE AN ACCOUNT
           </h2>
+
+          {/* profile photo */}
+          <div className="w-[100%] mb-3 flex justify-center">
+            {previewImage && (
+              <img
+                src={previewImage}
+                alt="Preview"
+                className="w-20 h-20 object-cover rounded-full"
+              />
+            )}
+          </div>
+
           <div className="space-y-6">
             {/* Your Name */}
             <label className="input input-bordered flex items-center gap-2 pe-10">
@@ -181,7 +201,20 @@ function SignUp() {
               </span>
             )}
 
-            <input type="file" accept="image/*" onChange={handleImageChange} />
+            {/* Profile Image Upload */}
+            <label
+              htmlFor="profile-photo"
+              className="cursor-pointer bg-blue-600 text-white py-3 px-6 rounded-lg hover:bg-blue-700 transition duration-300 flex items-center space-x-3"
+            >
+              Upload Profile Photo
+            </label>
+            <input
+              id="profile-photo"
+              type="file"
+              accept="image/*"
+              onChange={handleImageChange}
+              className="hidden"
+            />
 
             <label className="block mt-2 text-zinc-300">
               Preferred Language:
@@ -196,7 +229,7 @@ function SignUp() {
               <option value="mr">Marathi</option>
             </select>
 
-            {/* terms and condition */}
+            {/* terms and condition
             <div className="form-control ">
               <label className="cursor-pointer label gap-3 mb-4">
                 <input type="checkbox" className="checkbox size-5.5" />
@@ -207,7 +240,7 @@ function SignUp() {
                   </span>
                 </span>
               </label>
-            </div>
+            </div> */}
 
             {/* signup button */}
             <button className="btn w-full text-zinc-300 text-lg bg-custom-blue hover:bg-custom-blue active:bg-blue-800">
