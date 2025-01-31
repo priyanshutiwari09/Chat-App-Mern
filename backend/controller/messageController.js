@@ -4,6 +4,8 @@ const mongoose = require("mongoose");
 const { getReceiverId } = require("../SocketIO/server");
 const { Socket } = require("socket.io");
 const { app, server, io } = require("../SocketIO/server");
+const { User } = require("../model/userModel");
+const translateMessage = require("../LanguageTranslate/libreTranslate");
 
 exports.sendMessage = async (req, res) => {
   try {
@@ -26,10 +28,22 @@ exports.sendMessage = async (req, res) => {
       });
     }
 
+    const receiverUser = await User.findById(receiverId);
+    console.log("receiverUser", receiverUser.preferredLanguage);
+    const translatedMessage = await translateMessage(
+      message,
+      receiverUser.preferredLanguage
+    );
+    if (!translatedMessage) {
+      return res.status(400).json({ error: "Translation failed" });
+    }
+    console.log("translatedMessage", translatedMessage);
+
     const newMessage = await new Message({
       senderId,
       receiverId,
-      message
+      message,
+      translatedMessage
     });
 
     // console.log("New message object:", newMessage);
@@ -69,6 +83,7 @@ exports.getMessages = async (req, res) => {
       return res.status(400).json({ message: "No messages found" });
     }
 
+    console.log("getmessages", conversation.messages);
     res.status(200).json(conversation.messages);
   } catch (error) {
     res.status(500).json({ message: "Server error" });

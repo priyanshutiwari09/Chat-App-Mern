@@ -26,6 +26,7 @@ const messageSchema = mongoose.Schema(
         message: "Message cannot be empty"
       }
     },
+    translatedMessage: { type: String },
     createAt: {
       type: Date,
       default: Date.now

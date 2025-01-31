@@ -12,10 +12,12 @@ const io = new Server(server, {
   }
 });
 
-
 exports.getReceiverId = (receiverId) => users[receiverId];
 
+//translate
+
 const users = {};
+
 io.on("connection", (socket) => {
   console.log("New Client Connected", socket.id);
   const userId = socket.handshake.query.userId;
