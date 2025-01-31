@@ -5,7 +5,7 @@ const { getReceiverId } = require("../SocketIO/server");
 const { Socket } = require("socket.io");
 const { app, server, io } = require("../SocketIO/server");
 const { User } = require("../model/userModel");
-const translateMessage = require("../LanguageTranslate/libreTranslate");
+const translateMessage = require("../LanguageTranslate/translateApi");
 
 exports.sendMessage = async (req, res) => {
   try {
@@ -29,7 +29,7 @@ exports.sendMessage = async (req, res) => {
     }
 
     const receiverUser = await User.findById(receiverId);
-    console.log("receiverUser", receiverUser.preferredLanguage);
+    // console.log("receiverUser", receiverUser.preferredLanguage);
     const translatedMessage = await translateMessage(
       message,
       receiverUser.preferredLanguage
@@ -37,7 +37,7 @@ exports.sendMessage = async (req, res) => {
     if (!translatedMessage) {
       return res.status(400).json({ error: "Translation failed" });
     }
-    console.log("translatedMessage", translatedMessage);
+    // console.log("translatedMessage", translatedMessage);
 
     const newMessage = await new Message({
       senderId,
@@ -59,7 +59,7 @@ exports.sendMessage = async (req, res) => {
     const receiverSocketId = getReceiverId(receiverId);
     if (receiverSocketId) {
       io.to(receiverSocketId).emit("newMessage", newMessage);
-      console.log("Message sent to receiver via socket.");
+      // console.log("Message sent to receiver via socket.");
     }
     console.log("newMessage", newMessage);
 
@@ -83,7 +83,7 @@ exports.getMessages = async (req, res) => {
       return res.status(400).json({ message: "No messages found" });
     }
 
-    console.log("getmessages", conversation.messages);
+    // console.log("getmessages", conversation.messages);
     res.status(200).json(conversation.messages);
   } catch (error) {
     res.status(500).json({ message: "Server error" });

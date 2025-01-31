@@ -9,9 +9,9 @@ exports.signup = async (req, res) => {
   try {
     const { name, email, password, confirmPassword, preferredLanguage } =
       req.body;
-    console.log(req.file);
+    // console.log(req.file);
     const profileImage = req.file ? `/uploads/${req.file.filename}` : null;
-    console.log(profileImage);
+    // console.log(profileImage);
     if (password !== confirmPassword) {
       return res.status(400).json({ message: "Password do not match" });
     }
@@ -91,7 +91,7 @@ exports.getUserProfile = async (req, res) => {
     const filteredUsers = await User.find({
       _id: { $ne: loggedInUser }
     }).select("-password");
-    console.log(filteredUsers);
+    // console.log(filteredUsers);
     res.status(201).json({ filteredUsers });
   } catch (error) {
     console.log("Error in allUsers Controller" + error);
@@ -113,7 +113,7 @@ exports.updateLanguage = async (req, res) => {
     if (!user) {
       return res.status(404).json({ message: "User not Found" });
     }
-    console.log("done");
+    // console.log("done");
     res.json({ message: "Language Updated", user });
   } catch (err) {
     console.log(err.message);
