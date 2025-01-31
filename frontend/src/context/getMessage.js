@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import useConversation from "../stateManage/conversationState.js";
 import axios from "axios";
+import { AuthContext } from "./AuthProvider.jsx";
 
 const getMessage = () => {
   const { selectedConversation, messages, setMessages } = useConversation();
   const [loading, setLoading] = useState(false);
+  const { authUser } = useContext(AuthContext);
 
   useEffect(() => {
     const getMessages = async () => {
@@ -17,7 +19,23 @@ const getMessage = () => {
           );
 
           if (response.data && response.data.length > 0) {
-            setMessages(response.data);
+            // console.log("getMssgFront", response.data);
+
+            const loggedInUser = authUser.user._id;
+            const updatedMessages = response.data.map((message) => {
+              // If the user is the receiver, show the translated message; else, show the original
+              const displayMessage =
+                message.receiverId === loggedInUser
+                  ? message.translatedMessage || message.message
+                  : message.message;
+
+              return {
+                ...message,
+                displayMessage // Add the correct message to display
+              };
+            });
+
+            setMessages(updatedMessages);
           } else {
             // console.log("No messages found for this conversation.");
             setMessages([]);
