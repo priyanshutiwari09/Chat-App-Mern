@@ -18,9 +18,9 @@ function CurrentUser() {
   const [allUsers, loading] = GetAllUsers();
 
   return (
-    <div className="bg-slate-200 flex p-3 ps-5 items-center cursor-pointer h-[8.8vh]">
+    <div className="bg-slate-200 flex lg:p-3 lg:ps-5 items-center cursor-pointer h-[8.8vh]">
       <div className={`avatar ${isOnline ? "online" : ""}`}>
-        <div className="w-14 rounded-full">
+        <div className="w-11 lg:w-14 rounded-full">
           <img src={`${userProfile}`} />
         </div>
       </div>

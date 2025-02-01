@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import Left from "./home/left/Left";
 import Right from "./home/right/Right";
 import "./index.css";
@@ -11,7 +11,6 @@ import { Routes, Route, Navigate } from "react-router-dom";
 function App() {
   const { authUser, setAuthUser } = useContext(AuthContext);
 
-
   // console.log(authUser);
   return (
     <>
@@ -20,7 +19,7 @@ function App() {
           path="/"
           element={
             authUser ? (
-              <div className="flex h-screen">
+              <div className="lg:flex lg:h-screen">
                 <Left></Left>
                 <Right></Right>
               </div>
@@ -29,8 +28,14 @@ function App() {
             )
           }
         />
-        <Route path="/login" element={authUser ? <Navigate to="/" /> : <Login />} />
-        <Route path="/signup" element={authUser ? <Navigate to="/" /> : <SignUp />} />
+        <Route
+          path="/login"
+          element={authUser ? <Navigate to="/" /> : <Login />}
+        />
+        <Route
+          path="/signup"
+          element={authUser ? <Navigate to="/" /> : <SignUp />}
+        />
       </Routes>
     </>
   );

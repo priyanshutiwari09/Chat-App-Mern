@@ -4,19 +4,27 @@ import Users from "./Users";
 import Logout from "./leftSettings/Logout";
 import LanguageSettings from "../../components/LanguageSettings";
 import { AuthContext } from "../../context/AuthProvider";
+import useConversation from "../../stateManage/conversationState";
 
 function Left() {
   const { authUser } = useContext(AuthContext);
+  const { selectedConversation, setSelectedConversation } = useConversation();
+
+  let isSelectedConversation = selectedConversation ? "hidden" : "";
 
   return (
-    <div className="w-[35%] border-cyan-800">
-      <div className="flex h-full">
-        <div className="min-w-[65px] bg-custom-light-red flex flex-col justify-end items-center pb-5 gap-5">
-          <LanguageSettings authUser={authUser}/>
+    <div
+      className={`${isSelectedConversation} lg:block lg:w-[35%] lg:border-cyan-800`}
+    >
+      <div className="lg:flex lg:h-full">
+        <div className="lg:min-w-[65px] lg:bg-custom-light-red lg:flex lg:flex-col lg:justify-end lg:items-center lg:pb-5 lg:gap-5">
+          <LanguageSettings authUser={authUser} />
           <Logout />
         </div>
-        <div className="w-full me-3 ms-3">
-          <h1 className="px-4 pt-4 text-3xl text-zinc-950 font-bold">Chats</h1>
+        <div className="lg:w-full lg:me-3 lg:ms-3">
+          <h1 className="lg:px-4 lg:pt-4 text-3xl text-zinc-950 font-semibold lg:font-bold">
+            Chats
+          </h1>
           <UserSearch />
           <Users />
         </div>
