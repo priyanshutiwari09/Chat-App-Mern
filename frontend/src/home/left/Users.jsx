@@ -16,7 +16,7 @@ function Users() {
     //     return <User key={index} user={user} />;
     //   })}
     // </div>
-    <div className="flex flex-col h-full last:mb-0">
+    <div className="flex flex-col h-full px-1 lg:px-0 last:mb-0">
       <div className="overflow-y-auto flex-1 pb-40 last:mb-0">
         {usersToDisplay.map((user, index) => {
           return <User key={index} user={user} />;

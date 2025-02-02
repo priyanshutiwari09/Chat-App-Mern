@@ -5,29 +5,30 @@ import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../../context/AuthProvider";
 import useConversation from "../../../stateManage/conversationState";
+import handleLogout from "../../../context/logoutHandler";
 
 function Logout() {
-  const navigate = useNavigate();
-  const { authUser, setAuthUser } = useContext(AuthContext);
+  // const navigate = useNavigate();
+  const { setAuthUser } = useContext(AuthContext);
 
-  const handleClick = async () => {
-    try {
-      const response = await axios.post("/api/user/logout");
+  // const handleClick = async () => {
+  //   try {
+  //     const response = await axios.post("/api/user/logout");
 
-      if (response.status === 200) {
-        localStorage.removeItem("messenger");
-        Cookies.remove("jwt");
-        setAuthUser(undefined);
-        // useConversation.setState({ selectedConversation: null, messages: [] });
-        // useConversation.persist.clearStorage();
-        // console.log("Navigating to /login");
-        // navigate("/login");
-        // console.log("Navigation triggered");
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  //     if (response.status === 200) {
+  //       localStorage.removeItem("messenger");
+  //       Cookies.remove("jwt");
+  //       setAuthUser(undefined);
+  //       // useConversation.setState({ selectedConversation: null, messages: [] });
+  //       // useConversation.persist.clearStorage();
+  //       // console.log("Navigating to /login");
+  //       // navigate("/login");
+  //       // console.log("Navigation triggered");
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   return (
     <>
@@ -40,7 +41,7 @@ function Logout() {
         data-tip="Logout"
       >
         <RiLogoutCircleLine
-          onClick={handleClick}
+          onClick={() => handleLogout(setAuthUser)}
           className="text-4xl  fill-white"
         />
       </div>

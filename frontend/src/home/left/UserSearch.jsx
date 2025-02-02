@@ -4,7 +4,7 @@ import { IoSearchOutline } from "react-icons/io5";
 function UserSearch(){
 
   return (
-    <div className="flex px-4 pt-4 gap-2 items-center mb-5">
+    <div className="flex px-4 pt-3 lg:pt-4 gap-2 items-center mb-1 lg:mb-5">
         <input type="text" placeholder="Search"
         style={{boxShadow: 'rgba(0, 0, 0, 0.5) 0px 5px 10px 0px inset',
         }}

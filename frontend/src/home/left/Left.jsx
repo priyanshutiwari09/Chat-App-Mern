@@ -5,6 +5,7 @@ import Logout from "./leftSettings/Logout";
 import LanguageSettings from "../../components/LanguageSettings";
 import { AuthContext } from "../../context/AuthProvider";
 import useConversation from "../../stateManage/conversationState";
+import DropDownMenu from "../../components/DropdownMenu";
 
 function Left() {
   const { authUser } = useContext(AuthContext);
@@ -22,13 +23,13 @@ function Left() {
           <Logout />
         </div>
 
-        <div className="flex-1 lg:w-full lg:me-3 lg:ms-3">
+        <div className="flex-1 pt-4 lg:w-full lg:me-3 lg:ms-3">
           {/* Responsive Header */}
-          <div className="lg:hidden flex justify-between">
-            <h1 className="px-4 pt-4 text-3xl text-zinc-950 font-semibold">
+          <div className="lg:hidden flex align-c justify-between">
+            <h1 className="px-4 text-3xl text-zinc-950 font-semibold">
               Chats
             </h1>
-            <LanguageSettings authUser={authUser} />
+            <DropDownMenu />
           </div>
 
           {/* Title for LG screens */}
