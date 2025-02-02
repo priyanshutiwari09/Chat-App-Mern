@@ -11,10 +11,17 @@ function Users() {
 
   return (
     // style={{ maxHeight: "85vh" }}
-    <div className="overflow-y-scroll overflow-x-hidden h-[100%]">
-      {usersToDisplay.map((user, index) => {
-        return <User key={index} user={user} />;
-      })}
+    // <div className="overflow-y-auto overflow-x-hidden h-[100%]">
+    //   {usersToDisplay.map((user, index) => {
+    //     return <User key={index} user={user} />;
+    //   })}
+    // </div>
+    <div className="flex flex-col h-full last:mb-0">
+      <div className="overflow-y-auto flex-1 pb-40 last:mb-0">
+        {usersToDisplay.map((user, index) => {
+          return <User key={index} user={user} />;
+        })}
+      </div>
     </div>
   );
 }
