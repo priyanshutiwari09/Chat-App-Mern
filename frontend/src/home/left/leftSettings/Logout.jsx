@@ -1,15 +1,23 @@
-import axios from "axios";
-import React, { useContext } from "react";
-import { RiLogoutCircleLine } from "react-icons/ri";
-import Cookies from "js-cookie";
-import { useNavigate } from "react-router-dom";
+import ConfirmLogoutModal from "../../../components/ConfirmLogoutModal";
 import { AuthContext } from "../../../context/AuthProvider";
-import useConversation from "../../../stateManage/conversationState";
 import handleLogout from "../../../context/logoutHandler";
+import useConversation from "../../../stateManage/conversationState";
+// import ConfirmLogoutModal from "./";
+import axios from "axios";
+import Cookies from "js-cookie";
+import React, { useContext, useState } from "react";
+import { RiLogoutCircleLine } from "react-icons/ri";
+import { useNavigate } from "react-router-dom";
 
 function Logout() {
   // const navigate = useNavigate();
   const { setAuthUser } = useContext(AuthContext);
+  const [showModal, setShowModal] = useState(false);
+
+  const handleConfirmLogout = () => {
+    handleLogout(setAuthUser);
+    setShowModal(false);
+  };
 
   // const handleClick = async () => {
   //   try {
@@ -41,8 +49,14 @@ function Logout() {
         data-tip="Logout"
       >
         <RiLogoutCircleLine
-          onClick={() => handleLogout(setAuthUser)}
+          onClick={() => setShowModal(true)}
           className="text-4xl  fill-white"
+        />
+
+        <ConfirmLogoutModal
+          isOpen={showModal}
+          onConfirm={handleConfirmLogout}
+          onCancel={() => setShowModal(false)}
         />
       </div>
     </>
