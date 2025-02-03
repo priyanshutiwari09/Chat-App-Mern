@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const model = require("../model/userModel");
 const bcrypt = require("bcrypt");
+const { Message } = require("../model/messageModel");
 const { createTokenAndSaveCookie } = require("../jwt/generateToken");
 
 const User = model.User;
@@ -92,7 +93,39 @@ exports.getUserProfile = async (req, res) => {
       _id: { $ne: loggedInUser }
     }).select("-password");
     // console.log(filteredUsers);
-    res.status(201).json({ filteredUsers });
+    // Create an array of users with their latest messages
+    const usersWithLatestMessages = await Promise.all(
+      filteredUsers.map(async (user) => {
+        // Fetch the most recent message in the conversation between the logged-in user and this user
+        const latestMessage = await Message.findOne({
+          $or: [
+            { senderId: loggedInUser, receiverId: user._id },
+            { senderId: user._id, receiverId: loggedInUser }
+          ]
+        })
+          .sort({ createdAt: -1 }) // Sort by the latest message
+          .limit(1); // Get only the most recent message
+
+        // If a message exists, return the message, otherwise "No messages found"
+        const latestMessageText = latestMessage
+          ? latestMessage.message
+          : "No messages found";
+
+        const latestMessageTime = latestMessage
+          ? latestMessage.createdAt
+          : null;
+
+        // Return the user with their latest message
+        return {
+          ...user.toObject(), // Convert the user to plain JavaScript object
+          latestMessage: latestMessageText,
+          latestMessageTime
+        };
+      })
+    );
+
+    // Send the response with filtered users and their latest messages
+    res.status(200).json({ users: usersWithLatestMessages });
   } catch (error) {
     console.log("Error in allUsers Controller" + error);
     res.status(500).json({ message: "Server Error" });
