@@ -1,12 +1,15 @@
-import React, { useContext } from "react";
-import useConversation from "../../stateManage/conversationState.js";
 import { SocketContext } from "../../context/SocketContext.jsx";
 import { useUserProfile } from "../../context/UserProfile.jsx";
+import getMessage from "../../context/getMessage.js";
+import useConversation from "../../stateManage/conversationState.js";
+import React, { useContext } from "react";
 
 function User({ user }) {
   const { selectedConversation, setSelectedConversation } = useConversation();
   const isSelected = selectedConversation?._id === user._id;
-
+  const { messages } = getMessage();
+  // const latestMessage = Array.isArray(messages) && messages.message[messages.message.length - 1];
+  // console.log(messages)
   const { socket, onlineUsers } = useContext(SocketContext);
   // console.log(selectedConversation)
   const isOnline = onlineUsers.includes(user._id);

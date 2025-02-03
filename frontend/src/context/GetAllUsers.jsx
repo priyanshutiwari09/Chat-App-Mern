@@ -29,6 +29,7 @@ const GetAllUsers = () => {
             Authorization: `Bearer ${token}`
           }
         });
+        // console.log("getallusers", response.data)
         setAllUsers(response.data);
         // console.log(response.data)
         setLoading(false);

@@ -10,6 +10,17 @@ body {
   width: 100%;
 }
 
+/* Hide the scrollbar but still allow scrolling */
+.hide-scrollbar {
+  overflow-y: scroll; /* Keeps scrolling enabled */
+  scrollbar-width: none; /* For Firefox */
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none; /* For Chrome, Safari, and newer Edge */
+}
+
+
 /* Targeting only the div with class 'custom-scrollbar' */
 
 /* Custom scrollbar styles */
