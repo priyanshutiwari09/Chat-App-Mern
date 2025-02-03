@@ -12,8 +12,8 @@ function UserChat({ message }) {
   // console.log("loggedUser", authUser.user._id)
   // console.log(sender === authUser.user._id)
 
-  console.log("userChat", message.translatedMessage);
-  console.log("userChat", message.translatedMessage);
+  // console.log("userChat", message.translatedMessage);
+  // console.log("userChat", message.translatedMessage);
   // console.log("time", message.createdAt);
   // console.log("userchat", message);
   // console.log("receiverm", receiverMessage);

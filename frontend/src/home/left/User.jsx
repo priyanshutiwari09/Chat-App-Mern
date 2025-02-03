@@ -16,6 +16,12 @@ function User({ user }) {
   // console.log("user", user);
   const { setUserProfile } = useUserProfile();
 
+  const truncateMessage = (message, maxLength = 30) => {
+    return message.length > maxLength
+      ? `${message.slice(0, maxLength)}...`
+      : message;
+  };
+
   return (
     <div
       className={`hover:bg-slate-300 last:mb-0 rounded-md mb-1 text-gray-600 duration-300 cursor-pointer ${
@@ -41,9 +47,24 @@ function User({ user }) {
           </div>
         </div>
 
-        <div className="max-w-[80%] break-words pe-4">
-          <h1 className="font-bold">{user.name}</h1>
-          <span>{user.email}</span>
+        <div className="w-full">
+          <h1 className="font-bold pe-4">{user.name}</h1>
+          <div className="flex justify-between items-center">
+            <div className="flex flex-grow w-[60%] overflow-hidden">
+              {/* Truncated message */}
+              <span className="text-gray-300">
+                {truncateMessage(user.latestMessage)}
+              </span>
+            </div>
+
+            {/* Time display - not truncated */}
+            <span className="text-sm text-gray-400 ml-2">
+              {new Date(user.latestMessageTime).toLocaleTimeString([], {
+                hour: "2-digit",
+                minute: "2-digit"
+              })}
+            </span>
+          </div>
         </div>
       </div>
     </div>
