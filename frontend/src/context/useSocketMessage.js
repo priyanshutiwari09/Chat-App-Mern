@@ -25,7 +25,9 @@ const useSocketMessage = () => {
       const notification = new Audio(sound);
       notification.play();
       setMessages([...messages, newMessage]);
+      // console.log("Latest Message:", messages[messages.length - 1]);
     });
+    
 
     return () => {
       socket.off("newMessage");

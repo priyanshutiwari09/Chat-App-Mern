@@ -33,7 +33,7 @@ const GetAllUsers = () => {
         });
         // console.log("getallusers", response.data)
         setAllUsers(response.data.users);
-        console.log(response.data.users);
+        // console.log(response.data.users);
         setLoading(false);
       } catch (error) {
         setAuthUser(null);

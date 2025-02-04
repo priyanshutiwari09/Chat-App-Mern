@@ -1,7 +1,8 @@
-import React, { useContext, useEffect, useState } from "react";
 import useConversation from "../stateManage/conversationState.js";
-import axios from "axios";
 import { AuthContext } from "./AuthProvider.jsx";
+import axios from "axios";
+import React, { useContext, useEffect, useState } from "react";
+
 
 const getMessage = () => {
   const { selectedConversation, messages, setMessages } = useConversation();
@@ -37,23 +38,30 @@ const getMessage = () => {
 
             setMessages(updatedMessages);
           } else {
-            // console.log("No messages found for this conversation.");
             setMessages([]);
-            setLoading(false); // Handle empty state or display a message
           }
-        } catch (error) {
-          console.log(
-            "Error in getMessage",
-            error.response ? error.response.data : error.message
-          );
+        } catch {
+          // Silence errors without logging
           setMessages([]);
+        } finally {
           setLoading(false);
         }
       } else {
-        // If no conversation is selected, clear messages
         setMessages([]);
         setLoading(false);
       }
+      // } catch (error){
+      //   console.log(
+      //     "Error in getMessage",
+      //     error.response ? error.response.data : error.message
+      //   );
+      //   setMessages([]);
+      //   setLoading(false);
+      // }
+      // } else {
+      // If no conversation is selected, clear messages
+      // setMessages([]);
+      // setLoading(false);
     };
     getMessages();
   }, [selectedConversation, setMessages]);
