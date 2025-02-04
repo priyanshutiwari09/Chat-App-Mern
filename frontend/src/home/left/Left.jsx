@@ -9,6 +9,7 @@ import DropDownMenu from "../../components/DropdownMenu";
 
 function Left() {
   const { authUser } = useContext(AuthContext);
+
   const { selectedConversation } = useConversation();
 
   let isSelectedConversation = selectedConversation ? "hidden" : "";
@@ -38,7 +39,7 @@ function Left() {
           </h1>
 
           {/* User Search and Scrollable Users */}
-          <UserSearch />
+          {/* <UserSearch /> */}
 
           <div className="overflow-y-auto h-[calc(100vh)]">
             {" "}

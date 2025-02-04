@@ -25,10 +25,11 @@ function User({ user }) {
   return (
     <div
       className={`hover:bg-slate-300 last:mb-0 rounded-md mb-1 text-gray-600 duration-300 cursor-pointer ${
-        isSelected ? "bg-slate-400 hover:bg-slate-400" : ""
+        isSelected ? "bg-slate-400 text-black hover:bg-slate-400" : ""
       } `}
       onClick={() => {
         setSelectedConversation(user);
+        // console.log("user",user)
         user.profileImage
           ? setUserProfile(user.profileImage)
           : setUserProfile(
@@ -48,17 +49,19 @@ function User({ user }) {
         </div>
 
         <div className="w-full">
-          <h1 className="font-bold pe-4">{user.name}</h1>
+          <h1 className="font-semibold text-gray-800 pe-4">{user.name}</h1>
           <div className="flex justify-between items-center">
             <div className="flex flex-grow w-[60%] overflow-hidden">
               {/* Truncated message */}
-              <span className="text-gray-300">
+              <span
+                className={` ${isSelected ? "text-gray-700" : "text-gray-400"}`}
+              >
                 {truncateMessage(user.latestMessage)}
               </span>
             </div>
 
             {/* Time display - not truncated */}
-            <span className="text-sm text-gray-400 ml-2">
+            <span className={` ml-2 text-sm ${isSelected ? "text-gray-700" : "text-gray-400"}`}>
               {new Date(user.latestMessageTime).toLocaleTimeString([], {
                 hour: "2-digit",
                 minute: "2-digit"

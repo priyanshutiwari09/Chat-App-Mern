@@ -1,12 +1,15 @@
-import React, { useContext, useEffect, useRef } from "react";
-import UserChat from "./UserChat";
 import getMessage from "../../context/getMessage.js";
-import useConversation from "../../stateManage/conversationState.js";
 import useSocketMessage from "../../context/useSocketMessage.js";
+import useConversation from "../../stateManage/conversationState.js";
+import UserChat from "./UserChat";
+import React, { useContext, useEffect, useRef } from "react";
+
 // import Loading from "../../components/Loading";
 
 function ChatSection() {
-  const { messages } = getMessage();
+  const { messages, loading } = getMessage();
+  // console.log("loading", loading)
+  // const [loading] = getMessage();
   const { selectedConversation } = useConversation();
   // console.log("chatSection", selectedConversation);
 
