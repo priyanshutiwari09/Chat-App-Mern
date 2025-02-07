@@ -35,7 +35,7 @@ import React, { useState, useEffect } from "react";
 function Users() {
   const [allUsers, loading] = GetAllUsers(); // Fetch users from the context
   const [filteredUsers, setFilteredUsers] = useState(allUsers); // State to hold filtered users
-
+  
   // Update filtered users whenever allUsers or the search query changes
   const handleSearch = (query) => {
     if (query.trim() === "") {

@@ -1,5 +1,5 @@
-import React, { useState } from "react";
 import axios from "axios";
+import React, { useState } from "react";
 import { SlOptionsVertical } from "react-icons/sl";
 
 function Settings({ authUser }) {
@@ -27,38 +27,47 @@ function Settings({ authUser }) {
           boxShadow:
             "rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(10, 10, 10, 0.23) 0px 0px 6px"
         }}
-        className="rounded-full  tooltip tooltip-right p-1 cursor-pointer"
-        data-tip="Select Language"
+        className="rounded-full  p-1 group relative inline-block"
       >
         <SlOptionsVertical
           onClick={() => setShowDropdown(!showDropdown)}
           className="text-4xl  fill-white"
         />
 
+        {/* Tooltip (Show only if dropdown is not open) */}
+        {!showDropdown && (
+          <span className="absolute z-10 bottom-full mb-2 hidden group-hover:block whitespace-nowrap bg-gray-800 text-white text-sm px-2 py-1 rounded-md shadow-lg">
+            Change Language
+          </span>
+        )}
+
         {/* Dropdown Menu */}
         {showDropdown && (
-          <ul
-            className="absolute right-0 bg-white shadow-md rounded-lg py-2 w-40 z-10"
-            style={{
-              bottom: "50px", // Adjust to make sure the dropdown stays above the button
-              left: "50%", // Align to the center horizontally if necessary
-              transform: "translateX(-50%)" // Center the dropdown
-            }}
-          >
-            {["en", "hi", "mr"].map((lang) => (
-              <li
-                key={lang}
-                onClick={() => handleChangeLanguage(lang)}
-                className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-              >
-                {lang === "en"
-                  ? "English"
-                  : lang === "hi"
-                  ? "Hindi"
-                  : "Marathi"}
-              </li>
-            ))}
-          </ul>
+          <div className="font-semibold text-left text-black transition duration-100 ease-out [--anchor-gap:var(--spacing-1)] focus:outline-none data-[closed]:scale-95 data-[closed]:opacity-0">
+            <ul
+              className="absolute mt-2 bg-white shadow-md rounded-lg py-2 w-40 z-10"
+              style={{
+                bottom: "100%", // Adjust to make sure the dropdown stays above the button
+                // left: "50%", // Align to the center horizontally if necessary
+                transform: "translate(-10%, -10%)", // Combine X and Y transformations
+                marginLeft: "20px" // Margin from the left // Center the dropdown
+              }}
+            >
+              {["en", "hi", "mr"].map((lang) => (
+                <li
+                  key={lang}
+                  onClick={() => handleChangeLanguage(lang)}
+                  className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                >
+                  {lang === "en"
+                    ? "English"
+                    : lang === "hi"
+                    ? "Hindi"
+                    : "Marathi"}
+                </li>
+              ))}
+            </ul>
+          </div>
         )}
       </div>
     </>

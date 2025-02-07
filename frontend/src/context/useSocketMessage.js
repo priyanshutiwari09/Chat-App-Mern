@@ -10,7 +10,7 @@ const useSocketMessage = () => {
   const { authUser } = useContext(AuthContext);
 
   useEffect(() => {
-    // if (!socket) return;
+    if (!socket) return;
     socket.on("newMessage", (newMessage) => {
       // console.log("Received real-time message:", newMessage);
       // console.log("Sender ID:", newMessage.senderId);

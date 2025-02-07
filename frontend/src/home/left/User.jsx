@@ -2,19 +2,43 @@ import { SocketContext } from "../../context/SocketContext.jsx";
 import { useUserProfile } from "../../context/UserProfile.jsx";
 import getMessage from "../../context/getMessage.js";
 import useConversation from "../../stateManage/conversationState.js";
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 function User({ user }) {
   const { selectedConversation, setSelectedConversation } = useConversation();
   const isSelected = selectedConversation?._id === user._id;
   const { messages } = getMessage();
-  // const latestMessage = Array.isArray(messages) && messages.message[messages.message.length - 1];
-  // console.log(messages)
+  // const latestMessage = Array.isArray(messages) && messages.message[messages];
+  // let latestMessage = messages ? messages[messages.length - 1].message : "";
+
+  // console.log(latestMessage);
   const { socket, onlineUsers } = useContext(SocketContext);
   // console.log(selectedConversation)
   const isOnline = onlineUsers.includes(user._id);
   // console.log("user", user);
   const { setUserProfile } = useUserProfile();
+
+  const [latestMessage, setLatestMessage] = useState("");
+
+  // console.log("user", user);
+  // console.log("messages", messages);
+  useEffect(() => {
+    if (messages && messages.length > 0) {
+      const userMessages = messages.filter(
+        (msg) => msg.receiverId === user._id || msg.senderId === user._id
+      );
+      if (userMessages.length > 0) {
+        if (messages.receiverId === user._id) {
+          setLatestMessage(
+            userMessages[userMessages.length - 1].translatedMessage ||
+              userMessages[userMessages.length - 1]
+          );
+        }
+        setLatestMessage(userMessages[userMessages.length - 1].message);
+      }
+    }
+  }, [messages, user._id]);
+  // console.log("latestMessage", latestMessage);
 
   const truncateMessage = (message, maxLength = 30) => {
     return message.length > maxLength
@@ -56,12 +80,16 @@ function User({ user }) {
               <span
                 className={` ${isSelected ? "text-gray-700" : "text-gray-400"}`}
               >
-                {truncateMessage(user.latestMessage)}
+                {truncateMessage(latestMessage || user.latestMessage)}
               </span>
             </div>
 
             {/* Time display - not truncated */}
-            <span className={` ml-2 text-sm ${isSelected ? "text-gray-700" : "text-gray-400"}`}>
+            <span
+              className={` ml-2 text-sm ${
+                isSelected ? "text-gray-700" : "text-gray-400"
+              }`}
+            >
               {new Date(user.latestMessageTime).toLocaleTimeString([], {
                 hour: "2-digit",
                 minute: "2-digit"

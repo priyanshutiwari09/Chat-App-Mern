@@ -8,6 +8,7 @@ import ConfirmLogoutModal from "./ConfirmLogoutModal";
 const DropDownMenu = () => {
   const { setAuthUser } = useContext(AuthContext);
   const [showModal, setShowModal] = useState(false);
+  
 
   const handleConfirmLogout = () => {
     handleLogout(setAuthUser);
@@ -28,7 +29,8 @@ const DropDownMenu = () => {
            p-1 text-sm/5 font-semibold text-black transition duration-100 ease-out [--anchor-gap:var(--spacing-1)] focus:outline-none data-[closed]:scale-95 data-[closed]:opacity-0"
         >
           <MenuItem>
-            <button className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-white/10">
+            <button className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-white/10" 
+            onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
               Edit
             </button>
           </MenuItem>
