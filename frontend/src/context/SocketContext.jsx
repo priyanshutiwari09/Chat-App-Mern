@@ -18,9 +18,7 @@ export const SocketProvider = ({ children }) => {
       setSocket(newSocket);
       newSocket.on("getOnline", (users) => {
         setOnlineUsers(users);
-        // console.log("Emit in Frontend");
       });
-
       return () => {
         newSocket.close()
       }

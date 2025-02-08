@@ -11,7 +11,7 @@ const getMessage = () => {
 
   useEffect(() => {
     const getMessages = async () => {
-      setLoading(true);
+      // setLoading(true);
 
       if (selectedConversation && selectedConversation._id) {
         try {
@@ -44,11 +44,11 @@ const getMessage = () => {
           // Silence errors without logging
           setMessages([]);
         } finally {
-          setLoading(false);
+          // setLoading(false);
         }
       } else {
         setMessages([]);
-        setLoading(false);
+        // setLoading(false);
       }
       // } catch (error){
       //   console.log(

@@ -27,7 +27,7 @@ function Settings({ authUser }) {
           boxShadow:
             "rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(10, 10, 10, 0.23) 0px 0px 6px"
         }}
-        className="rounded-full  p-1 group relative inline-block"
+        className="rounded-full hover:cursor-pointer  p-1 group relative inline-block"
       >
         <SlOptionsVertical
           onClick={() => setShowDropdown(!showDropdown)}

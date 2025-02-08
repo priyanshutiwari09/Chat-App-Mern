@@ -21,7 +21,7 @@ function ChatSection() {
   // Function to scroll to the latest message
   const scrollToBottom = () => {
     if (chatContainerRef.current) {
-      chatContainerRef.current.scrollTo({
+      chatContainerRef.current?.scrollTo({
         top: chatContainerRef.current.scrollHeight,
         behavior: "smooth"
       });
@@ -49,7 +49,7 @@ function ChatSection() {
       ) : ( */}
 
       {Array.isArray(messages) &&
-        messages.length == 0 &&
+        messages.length === 0 &&
         selectedConversation && (
           <div
             className="flex flex-col justify-center items-center text-center border-l-2 text-gray-700"
@@ -73,6 +73,7 @@ function ChatSection() {
           </div>
         )}
       {Array.isArray(messages) &&
+      selectedConversation &&
         messages.length > 0 &&
         messages.map((message, index) => {
           // console.log("chatsection",message)

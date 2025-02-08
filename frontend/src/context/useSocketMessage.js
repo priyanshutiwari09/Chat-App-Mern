@@ -1,16 +1,17 @@
-import { useContext, useEffect } from "react";
-import useConversation from "../stateManage/conversationState.js";
-import { SocketContext } from "./SocketContext.jsx";
+import { set } from "mongoose";
 import sound from "../../Audio/notif.mp3";
 import { AuthContext } from "../context/AuthProvider.jsx";
+import useConversation from "../stateManage/conversationState.js";
+import { SocketContext } from "./SocketContext.jsx";
+import { useContext, useEffect } from "react";
 
 const useSocketMessage = () => {
   const { socket } = useContext(SocketContext);
-  const { messages, setMessages } = useConversation();
+  const { messages, setMessages, setNewMssg } = useConversation();
   const { authUser } = useContext(AuthContext);
 
   useEffect(() => {
-    if (!socket) return;
+    // if (!socket) return;
     socket.on("newMessage", (newMessage) => {
       // console.log("Received real-time message:", newMessage);
       // console.log("Sender ID:", newMessage.senderId);
@@ -21,13 +22,14 @@ const useSocketMessage = () => {
       // console.log(
       //   isSender ? "This is your message" : "This is the receiver's message"
       // );
-
+      // console.log("New Message:", newMessage);
+      // setNewMssg(newMessage);
       const notification = new Audio(sound);
       notification.play();
+
       setMessages([...messages, newMessage]);
       // console.log("Latest Message:", messages[messages.length - 1]);
     });
-    
 
     return () => {
       socket.off("newMessage");

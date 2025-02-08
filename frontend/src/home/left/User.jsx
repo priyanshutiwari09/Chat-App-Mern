@@ -5,9 +5,11 @@ import useConversation from "../../stateManage/conversationState.js";
 import React, { useContext, useEffect, useState } from "react";
 
 function User({ user }) {
-  const { selectedConversation, setSelectedConversation } = useConversation();
+  const { selectedConversation, newMssg, setNewMssg, setSelectedConversation } =
+    useConversation();
   const isSelected = selectedConversation?._id === user._id;
   const { messages } = getMessage();
+
   // const latestMessage = Array.isArray(messages) && messages.message[messages];
   // let latestMessage = messages ? messages[messages.length - 1].message : "";
 
@@ -39,6 +41,18 @@ function User({ user }) {
     }
   }, [messages, user._id]);
   // console.log("latestMessage", latestMessage);
+
+  // useEffect(() => {
+  //   if (newMssg) {
+  //     // if (
+  //     //   newMssg.receiverId === user._id ||
+  //     //   newMssg.senderId === user._id
+  //     // ) {
+  //     //   setLatestMessage(newMssg.message);
+  //     // }
+  //     console.log("newMssg", newMssg);
+  //   }
+  // }, [setNewMssg,newMssg, user._id]);
 
   const truncateMessage = (message, maxLength = 30) => {
     return message.length > maxLength
