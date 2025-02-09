@@ -1,4 +1,35 @@
-import { set } from "mongoose";
+// import sound from "../../Audio/notif.mp3";
+// import { AuthContext } from "../context/AuthProvider.jsx";
+// import useConversation from "../stateManage/conversationState.js";
+// import { SocketContext } from "./SocketContext.jsx";
+// import { set } from "mongoose";
+// import { useContext, useEffect } from "react";
+
+// const useSocketMessage = () => {
+//   const { socket } = useContext(SocketContext);
+//   const { messages, setMessages } = useConversation();
+//   const { authUser } = useContext(AuthContext);
+
+//   useEffect(() => {
+//     // if (!socket) return;
+//     socket.on("newMessage", (newMessage) => {
+//       const isSender = newMessage.senderId === authUser.user._id;
+
+//       // setNewMssg(newMessage);
+//       const notification = new Audio(sound);
+//       notification.play();
+
+//       setMessages([...messages, newMessage]);
+//     });
+
+//     return () => {
+//       socket.off("newMessage");
+//     };
+//   }, [socket, messages, setMessages]);
+// };
+
+// export default useSocketMessage;
+
 import sound from "../../Audio/notif.mp3";
 import { AuthContext } from "../context/AuthProvider.jsx";
 import useConversation from "../stateManage/conversationState.js";
@@ -7,34 +38,35 @@ import { useContext, useEffect } from "react";
 
 const useSocketMessage = () => {
   const { socket } = useContext(SocketContext);
-  const { messages, setMessages, setNewMssg } = useConversation();
+  const { messages, setMessages, selectedConversation, addUnreadMessage } = useConversation();
   const { authUser } = useContext(AuthContext);
 
   useEffect(() => {
-    // if (!socket) return;
-    socket.on("newMessage", (newMessage) => {
-      // console.log("Received real-time message:", newMessage);
-      // console.log("Sender ID:", newMessage.senderId);
-      // console.log("Receiver ID:", newMessage.receiverId);
-      // console.log("Logged-in User ID:", authUser.user._id);
-      // Check if it's the sender or receiver
-      const isSender = newMessage.senderId === authUser.user._id;
-      // console.log(
-      //   isSender ? "This is your message" : "This is the receiver's message"
-      // );
-      // console.log("New Message:", newMessage);
-      // setNewMssg(newMessage);
-      const notification = new Audio(sound);
-      notification.play();
+    if (!socket || !selectedConversation || !selectedConversation._id) return;
 
-      setMessages([...messages, newMessage]);
-      // console.log("Latest Message:", messages[messages.length - 1]);
+    socket.on("newMessage", (newMessage) => {
+      const isRelevantMessage =
+        (newMessage.senderId === authUser.user._id &&
+          newMessage.receiverId === selectedConversation._id) ||
+        (newMessage.senderId === selectedConversation._id &&
+          newMessage.receiverId === authUser.user._id);
+
+      if (newMessage.senderId !== authUser.user._id) {
+        const notification = new Audio(sound);
+        notification.play();
+      }
+
+      if (isRelevantMessage) {
+        setMessages((prevMessages) => [...prevMessages, newMessage]);
+      } else {
+        addUnreadMessage(newMessage.senderId) //Track Unread Messages
+      }
     });
 
     return () => {
       socket.off("newMessage");
     };
-  }, [socket, messages, setMessages]);
+  }, [socket, authUser.user._id, selectedConversation, setMessages, addUnreadMessage]);
 };
 
 export default useSocketMessage;

@@ -32,7 +32,7 @@ function UserSearch({ allUsers, onSearch }) {
   };
 
   return (
-    <div className="flex px-4 pt-3 lg:pt-4 gap-2 items-center mb-1.5 lg:mb-5">
+    <div className="flex px-5 pt-3 lg:pt-4 gap-2 items-center mb-1.5 lg:mb-5">
       <input
         type="text"
         placeholder="Search"
