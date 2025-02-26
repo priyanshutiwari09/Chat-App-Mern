@@ -8,6 +8,18 @@ function Settings({ authUser }) {
   //   console.log("auth", authUser.user._id);
 
   const handleChangeLanguage = async (selectedLanguage) => {
+    const confirmChange = window.confirm(
+      `Are you sure you want to change the language to ${
+        selectedLanguage === "en"
+          ? "English"
+          : selectedLanguage === "hi"
+          ? "Hindi"
+          : "Marathi"
+      }?`
+    );
+
+    if (!confirmChange) return;
+
     setLanguage(selectedLanguage);
     setShowDropdown(false);
     try {

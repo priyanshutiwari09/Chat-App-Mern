@@ -15,7 +15,7 @@ function SendMessage() {
 
   return (
     <form onSubmit={handleSubmit}>
-      <div className="bg-slate-200 flex justify-around items-center h-[9vh]">
+      <div className="bg-slate-200 flex justify-around items-center h-[9dvh] lg:h-[9vh]">
         <button className="cursor-pointer ps-10" type="file" accept="image/*">
           <LuFiles className="text-2xl text-gray-500" />
         </button>

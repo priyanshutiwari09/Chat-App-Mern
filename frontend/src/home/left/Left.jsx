@@ -41,8 +41,7 @@ function Left() {
           {/* User Search and Scrollable Users */}
           {/* <UserSearch /> */}
 
-          <div className="overflow-y-auto h-[calc(100vh)]">
-            {" "}
+          <div className="overflow-y-auto h-[calc(100dvh)] lg:h-[calc(100vh)]">
             {/* Adjust height */}
             <Users />
           </div>
